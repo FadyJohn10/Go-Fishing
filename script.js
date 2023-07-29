@@ -126,7 +126,8 @@ function movePoint(point, index) {
 }
 
 function retHock(){
-  document.querySelector(".test").style.width = "200px";
+  document.querySelector(".test").style.height = "100px";
+  document.querySelector(".hook").style.top = "60px";
 }
 
 // move boat
@@ -146,7 +147,8 @@ function detectKey(e) {
         boat.style.marginLeft  = (posLeft+58)+"px";
     }
     else if (e.key == " " || e.code == "Space" || e.keyCode == 32) {
-      document.querySelector(".test").style.width = "400px";
+      document.querySelector(".test").style.height = "400px";
+      document.querySelector(".hook").style.top = "360px";
       setTimeout(retHock, 3000)
   }
 }
