@@ -105,7 +105,7 @@ function generateStem(x, pointsLen, step) {
 
 function drawFrame() {
   window.requestAnimationFrame(drawFrame, canvas);
-  ctx.fillStyle = '#003f7c';
+  ctx.fillStyle = '#6bb8f7';
   ctx.fillRect(0, 0, width, height);
   bubbles.forEach(moveBubble);
   stems.forEach(function(stem) {
@@ -125,7 +125,7 @@ function movePoint(point, index) {
   point.angle += point.speed;
 }
 
-function retHock(){
+function retHook(){
   document.querySelector(".test").style.height = "100px";
   document.querySelector(".hook").style.top = "60px";
 }
@@ -149,7 +149,7 @@ function detectKey(e) {
     else if (e.key == " " || e.code == "Space" || e.keyCode == 32) {
       document.querySelector(".test").style.height = "400px";
       document.querySelector(".hook").style.top = "360px";
-      setTimeout(retHock, 3000)
+      setTimeout(retHook, 3000)
   }
 }
 
