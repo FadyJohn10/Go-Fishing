@@ -2,7 +2,8 @@ html, body {
     margin: 0;
     min-height: 100%;
     overflow: hidden;
-  
+    background: url("./images/sky.jpeg") no-repeat;
+    background-position: top;
   }
   
 /* waves */
@@ -55,4 +56,49 @@ canvas{
     left: 0;
     right: 100%;
     transition: all 0.5s cubic-bezier(0, 0, 0.12, 0.97);
+    animation: boatmotion 3s infinite;
 }
+@keyframes boatmotion{
+    0% {transform: translateY(0); transform: translateX(0);}
+    35% {transform: translateY(4px); transform: translateX(2px);}
+    70% {transform: translateY(-4px); transform: translateX(-2px);}
+    100% {transform: translateY(0); transform: translateX(0);}
+}
+
+
+
+
+.test {
+    opacity: 0.5;
+    width: 200px;
+    height: 10px;
+    background-color: brown;
+    transition: 3s ease-in-out;
+}
+
+.test:hover {
+    animation: 4s unsheathe;
+    opacity: 1;
+}
+
+
+@keyframes unsheathe {
+    0% {
+        width: 200px;
+    }
+    50% {
+        width: 499px;
+    }
+    100% {
+        width: 200px;
+    }
+}
+
+.fish {
+    width: 50px;
+    height: 30px;
+    background-color: #ffa500;
+    position: absolute;
+    top: 50%;
+    border-radius: 50% 50% 0 0;
+  }
