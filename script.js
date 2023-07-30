@@ -136,6 +136,7 @@ document.onkeydown = detectKey;
 var boat = document.getElementById('myId');
 var rod = document.querySelector(".rod");
 var rodStand = document.querySelector(".rod-stand");
+var hook = document.querySelector(".hook");
 function detectKey(e) {
 
     var posLeft = boat.offsetLeft;
@@ -154,9 +155,7 @@ function detectKey(e) {
         rodStand.style.marginLeft  = (posLeft+58)+"px";
     }
     else if (e.key == " " || e.code == "Space" || e.keyCode == 32) {
-      document.querySelector(".rod").style.height = "500px";
-      document.querySelector(".hook").style.top = "480px";
-      setTimeout(retHook, 600)
+        moveHook();
   }
 }
 
@@ -187,12 +186,8 @@ function animateFish(fish) {
     // If the fish goes beyond the ocean container, reset its position and randomize speed and direction
     if (positionX > oceanWidth) {
       positionX = -fish.clientWidth;
-      speed = getRandomNumber(1, 5);
-      direction = -1;
     } else if (positionX < -fish.clientWidth) {
       positionX = oceanWidth;
-      speed = getRandomNumber(1, 5);
-      direction = 1;
     }
 
     requestAnimationFrame(moveFish);
@@ -212,7 +207,67 @@ function makeFish(){
   document.querySelector(".fishCont").appendChild(fish);
   fishGr.push(fish);
 }
-for(i = 0; i<4; i++){
-  makeFish();
+
+function populateFish(){
+  for(i = 0; i<4; i++){
+    makeFish();
+  }
 }
-fishGr.forEach(animateFish);
+
+function resetFish(){
+  for(i=0; i<4; i++){
+    fishGr.pop();
+  }
+}
+
+
+for(i = 0; i<3; i++){
+  populateFish();
+  fishGr.forEach(animateFish);
+}
+
+function checkCollision(elem1, elem2) {
+  const rect1 = elem1.getBoundingClientRect();
+  const rect2 = elem2.getBoundingClientRect();
+
+  return (
+    rect1.left < rect2.right &&
+    rect1.right > rect2.left &&
+    rect1.top < rect2.bottom &&
+    rect1.bottom > rect2.top
+  );
+}
+
+function catchFish() {
+  const hookElement = document.querySelector(".hook");
+
+  fishGr.forEach((fish) => {
+    if (checkCollision(fish, hookElement)) {
+      // Fish is caught!
+      fish.remove();
+      fishGr.pop();
+      console.log("You caught a fish!");
+    }else{
+      console.log("try again");
+    }
+  });
+}
+
+function moveHook() {
+  let clicked = false;
+  if(!clicked){
+    document.querySelector(".rod").style.height = "500px";
+    document.querySelector(".hook").style.top = "480px";
+  }
+  
+  // Code to move the hook element (you can implement your own logic for hook movement here)
+    
+  // After moving the hook, call the catchFish function to check for collisions
+  catchFish();
+  // Use requestAnimationFrame to keep the hook moving and checking for collisions continuously
+  if (document.querySelector(".rod").clientHeight < 500){
+    requestAnimationFrame(moveHook);
+  }
+  setTimeout(retHook, 600);
+  
+}
