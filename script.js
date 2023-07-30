@@ -1,6 +1,7 @@
 var canvas, ctx, width, height, stems, bubbles;
 stems = [];
 bubbles = [];
+fishGr = [];
 
 function Bubble(x, y, radius) {
   this.x = x;
@@ -126,13 +127,15 @@ function movePoint(point, index) {
 }
 
 function retHook(){
-  document.querySelector(".test").style.height = "100px";
-  document.querySelector(".hook").style.top = "60px";
+  document.querySelector(".rod").style.height = "10px";
+  document.querySelector(".hook").style.top = "10px";
 }
 
 // move boat
 document.onkeydown = detectKey;
 var boat = document.getElementById('myId');
+var rod = document.querySelector(".rod");
+var rodStand = document.querySelector(".rod-stand");
 function detectKey(e) {
 
     var posLeft = boat.offsetLeft;
@@ -142,14 +145,18 @@ function detectKey(e) {
 
     if (e.keyCode == '37' && posLeft >= 58) {
         boat.style.marginLeft  = (posLeft-58)+"px";
+        rod.style.marginLeft  = (posLeft-58)+"px";
+        rodStand.style.marginLeft  = (posLeft-58)+"px";
     }
     else if (e.keyCode == '39' && posRight >= 58) {
         boat.style.marginLeft  = (posLeft+58)+"px";
+        rod.style.marginLeft  = (posLeft+58)+"px";
+        rodStand.style.marginLeft  = (posLeft+58)+"px";
     }
     else if (e.key == " " || e.code == "Space" || e.keyCode == 32) {
-      document.querySelector(".test").style.height = "400px";
-      document.querySelector(".hook").style.top = "360px";
-      setTimeout(retHook, 3000)
+      document.querySelector(".rod").style.height = "500px";
+      document.querySelector(".hook").style.top = "480px";
+      setTimeout(retHook, 600)
   }
 }
 
@@ -159,39 +166,53 @@ function getRandomNumber(min, max) {
 }
 
 // Function to animate fish movement
-function animateFish(fishId) {
-  const fish = document.getElementById(fishId);
-  const oceanWidth = window.innerWidth; // Width of the ocean container
+function animateFish(fish) {
+  const oceanWidth = window.innerWidth;
 
   // Generate random speed and direction for the fish
-  let speed = getRandomNumber(1, 5); // Change the min and max values for different speeds
+  let speed = getRandomNumber(1, 3);
   let direction = Math.random() < 0.5 ? 1 : -1; // 1 for moving right, -1 for moving left
-
-  // Randomize the initial position of the fish within the ocean
-  let positionX = Math.random() * (oceanWidth - fish.clientWidth);
+  let positionX;
+  if(direction == 1){
+    fish.classList.add("flip-horizontally");
+    positionX = -fish.clientWidth;
+  }else{
+    positionX = oceanWidth;
+  }  
 
   function moveFish() {
     positionX += speed * direction;
-    fish.style.transform = `translateX(${positionX}px)`;
+    fish.style.left = `${positionX}px`;
 
     // If the fish goes beyond the ocean container, reset its position and randomize speed and direction
     if (positionX > oceanWidth) {
-      positionX = -fish.clientWidth; // Offscreen to the left
+      positionX = -fish.clientWidth;
       speed = getRandomNumber(1, 5);
       direction = -1;
     } else if (positionX < -fish.clientWidth) {
-      positionX = oceanWidth; // Offscreen to the right
+      positionX = oceanWidth;
       speed = getRandomNumber(1, 5);
       direction = 1;
     }
 
     requestAnimationFrame(moveFish);
   }
-
-  // Start the animation loop
   moveFish();
 }
 
-// Call the animateFish function to create moving fish
-animateFish("fish1");
-animateFish("fish2");
+function makeFish(){
+  const fish = document.createElement("img");
+  let fishNo = Math.ceil(getRandomNumber(0, 3));
+  fish.src = `./images/fish${fishNo}.png`;
+  fish.classList.add("fish");
+  let width = getRandomNumber(55, 90);
+  fish.style.width = `${width}px`;
+  let posY = getRandomNumber(10, 300);
+  fish.style.bottom = `${posY}px`;
+  document.querySelector(".fishCont").appendChild(fish);
+  fishGr.push(fish);
+}
+for(i = 0; i<4; i++){
+  makeFish();
+}
+fishGr.forEach(animateFish);
