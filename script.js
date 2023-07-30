@@ -1,4 +1,6 @@
 var canvas, ctx, width, height, stems, bubbles;
+var noOfFish;
+var caught = 0;
 stems = [];
 bubbles = [];
 fishGr = [];
@@ -58,19 +60,6 @@ Stem.prototype.draw = function(ctx) {
   ctx.restore();
 }
 
-init();
-function init(){
-  canvas = document.querySelector('canvas');
-  ctx = canvas.getContext('2d');
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = 380;
-
-  populateStems(height / 3, width, 25);
-  generateBubbles(10);
-
-  drawFrame();
-};
-
 function generateBubbles(bubblesLimit) {
   for (var i = 0; i <= bubblesLimit; i++) {
     bubbles.push(new Bubble(Math.random() * width, height + Math.random() * height / 2, 2 + Math.random() * 2));
@@ -126,38 +115,19 @@ function movePoint(point, index) {
   point.angle += point.speed;
 }
 
-function retHook(){
-  document.querySelector(".rod").style.height = "10px";
-  document.querySelector(".hook").style.top = "10px";
-}
+function initCanvas(){
+  canvas = document.querySelector('canvas');
+  ctx = canvas.getContext('2d');
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = 380;
 
-// move boat
-document.onkeydown = detectKey;
-var boat = document.getElementById('myId');
-var rod = document.querySelector(".rod");
-var rodStand = document.querySelector(".rod-stand");
-var hook = document.querySelector(".hook");
-function detectKey(e) {
+  populateStems(height / 3, width, 25);
+  generateBubbles(10);
 
-    var posLeft = boat.offsetLeft;
-    var posRight = window.width - boat.offsetLeft - boat.width;
+  drawFrame();
+};
 
-    e = e || window.event;
-
-    if (e.keyCode == '37' && posLeft >= 58) {
-        boat.style.marginLeft  = (posLeft-58)+"px";
-        rod.style.marginLeft  = (posLeft-58)+"px";
-        rodStand.style.marginLeft  = (posLeft-58)+"px";
-    }
-    else if (e.keyCode == '39' && posRight >= 58) {
-        boat.style.marginLeft  = (posLeft+58)+"px";
-        rod.style.marginLeft  = (posLeft+58)+"px";
-        rodStand.style.marginLeft  = (posLeft+58)+"px";
-    }
-    else if (e.key == " " || e.code == "Space" || e.keyCode == 32) {
-        moveHook();
-  }
-}
+initCanvas();
 
 // Function to generate random number within a range
 function getRandomNumber(min, max) {
@@ -208,66 +178,98 @@ function makeFish(){
   fishGr.push(fish);
 }
 
-function populateFish(){
-  for(i = 0; i<4; i++){
+function populateFish(no){
+  for(i = 0; i<no; i++){
     makeFish();
   }
 }
 
-function resetFish(){
-  for(i=0; i<4; i++){
+function resetFish(no){
+  for(i=0; i<no; i++){
     fishGr.pop();
   }
-}
-
-
-for(i = 0; i<3; i++){
-  populateFish();
-  fishGr.forEach(animateFish);
 }
 
 function checkCollision(elem1, elem2) {
   const rect1 = elem1.getBoundingClientRect();
   const rect2 = elem2.getBoundingClientRect();
 
-  return (
-    rect1.left < rect2.right &&
-    rect1.right > rect2.left &&
-    rect1.top < rect2.bottom &&
-    rect1.bottom > rect2.top
-  );
+  return!(rect2.left > rect1.right || 
+    rect2.right < rect1.left || 
+    rect2.top > rect1.bottom || 
+    rect2.bottom < rect1.top);
 }
 
 function catchFish() {
-  const hookElement = document.querySelector(".hook");
+  const hook = document.querySelector(".hook");
 
   fishGr.forEach((fish) => {
-    if (checkCollision(fish, hookElement)) {
-      // Fish is caught!
+    if (checkCollision(fish, hook)) {
       fish.remove();
-      fishGr.pop();
+      caught++;
       console.log("You caught a fish!");
-    }else{
-      console.log("try again");
     }
   });
 }
 
 function moveHook() {
-  let clicked = false;
-  if(!clicked){
-    document.querySelector(".rod").style.height = "500px";
-    document.querySelector(".hook").style.top = "480px";
-  }
-  
-  // Code to move the hook element (you can implement your own logic for hook movement here)
-    
-  // After moving the hook, call the catchFish function to check for collisions
+  document.querySelector(".rod").style.height = "500px";
+  document.querySelector(".hook").style.top = "480px";
   catchFish();
-  // Use requestAnimationFrame to keep the hook moving and checking for collisions continuously
   if (document.querySelector(".rod").clientHeight < 500){
     requestAnimationFrame(moveHook);
   }
-  setTimeout(retHook, 600);
-  
+  setTimeout(returnHook, 500);
 }
+
+function returnHook(){
+  document.querySelector(".rod").style.height = "10px";
+  document.querySelector(".hook").style.top = "10px";
+}
+
+document.onkeydown = detectKey;
+var boat = document.getElementById('myId');
+var rod = document.querySelector(".rod");
+var rodStand = document.querySelector(".rod-stand");
+var hook = document.querySelector(".hook");
+function detectKey(e) {
+
+    var posLeft = boat.offsetLeft;
+    var posRight = window.width - boat.offsetLeft - boat.width;
+
+    e = e || window.event;
+
+    if (e.keyCode == '37' && posLeft >= 58) {
+        boat.style.marginLeft  = (posLeft-58)+"px";
+        rod.style.marginLeft  = (posLeft-58)+"px";
+        rodStand.style.marginLeft  = (posLeft-58)+"px";
+    }
+    else if (e.keyCode == '39' && posRight >= 58) {
+        boat.style.marginLeft  = (posLeft+58)+"px";
+        rod.style.marginLeft  = (posLeft+58)+"px";
+        rodStand.style.marginLeft  = (posLeft+58)+"px";
+    }
+    else if (e.key == " " || e.code == "Space" || e.keyCode == 32) {
+        moveHook();
+  }
+}
+
+function gameOn(){
+  if(caught == noOfFish){
+    noOfFish = Math.ceil(getRandomNumber(0, 5));
+    console.log(noOfFish);
+    caught = 0;
+    resetFish(noOfFish);
+    populateFish(noOfFish);
+    fishGr.forEach(animateFish);
+  }
+  window.requestAnimationFrame(gameOn);
+}
+
+function initGame(){
+  noOfFish = 1;
+  populateFish(noOfFish);
+  fishGr.forEach(animateFish);
+  gameOn();
+}
+initGame();

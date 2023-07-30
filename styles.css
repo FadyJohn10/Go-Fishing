@@ -73,7 +73,7 @@ canvas{
     border-radius: 5px;
     position: absolute;
     left: 280px;
-    top: 300px;
+    bottom: 445px;
     transform: rotate(55deg);
     z-index: -1 ;
     transition: all 0.5s cubic-bezier(0, 0, 0.12, 0.97);
@@ -104,4 +104,8 @@ canvas{
 
 .flip-horizontally {
     transform: scaleX(-1) !important;
-  }
+}
+
+.caught{
+    transform: rotate(90deg);
+}
