@@ -49,6 +49,7 @@ canvas{
     bottom: 0;
     position: absolute;
 }
+
 .boat{
     position: absolute;
     width: 300px;
@@ -65,31 +66,42 @@ canvas{
     100% {transform: translateY(0); transform: translateX(0);}
 }
 
-
-
-
-.test {
-    opacity: 0.5;
-    width: 10px;
+.rod-stand{
     height: 100px;
-    background-color: brown;
-    transition: 3s ease-in-out;
-    position: relative;
-    left: 20px;
+    width: 3px;
+    background-color: #855a31;
+    border-radius: 5px;
+    position: absolute;
+    left: 280px;
+    top: 300px;
+    transform: rotate(55deg);
+    z-index: -1 ;
+    transition: all 0.5s cubic-bezier(0, 0, 0.12, 0.97);
+}
+
+.rod {
+    opacity: 0.5;
+    width: 1px;
+    height: 10px;
+    background-color: rgb(182 219 251);
+    transition: all .5s cubic-bezier(0, 0, 0.12, 0.97);
+    position: absolute;
+    top: 321px;
+    left: 321px;
     z-index: 4;
 }
 .hook{
-    width: 20px;
+    width: 12px;
     position: relative;
-    top: 60px;
+    top: 10px;
     left: -10px;
-    transition: 3s ease-in-out;
+    transition: all .5s cubic-bezier(0, 0, 0.12, 0.97);
 }
 .fish {
-    width: 50px;
-    height: 30px;
-    background-color: #ffa500;
     position: absolute;
-    top: 50%;
-    border-radius: 50% 50% 0 0;
+    z-index: 9;
+}
+
+.flip-horizontally {
+    transform: scaleX(-1) !important;
   }
