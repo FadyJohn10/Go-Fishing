@@ -167,7 +167,7 @@ function animateFish(fish) {
 
 function makeFish(){
   const fish = document.createElement("img");
-  let fishNo = Math.ceil(getRandomNumber(0, 3));
+  let fishNo = Math.ceil(getRandomNumber(0, 5));
   fish.src = `./images/fish${fishNo}.png`;
   fish.classList.add("fish");
   let width = getRandomNumber(55, 90);
@@ -229,6 +229,7 @@ function returnHook(){
 
 document.onkeydown = detectKey;
 var boat = document.getElementById('myId');
+var fisher = document.querySelector(".fisher");
 var rod = document.querySelector(".rod");
 var rodStand = document.querySelector(".rod-stand");
 var hook = document.querySelector(".hook");
@@ -241,11 +242,13 @@ function detectKey(e) {
 
     if (e.keyCode == '37' && posLeft >= 58) {
         boat.style.marginLeft  = (posLeft-58)+"px";
+        fisher.style.marginLeft  = (posLeft-58)+"px";
         rod.style.marginLeft  = (posLeft-58)+"px";
         rodStand.style.marginLeft  = (posLeft-58)+"px";
     }
     else if (e.keyCode == '39' && posRight >= 58) {
         boat.style.marginLeft  = (posLeft+58)+"px";
+        fisher.style.marginLeft  = (posLeft+58)+"px";
         rod.style.marginLeft  = (posLeft+58)+"px";
         rodStand.style.marginLeft  = (posLeft+58)+"px";
     }
