@@ -1,6 +1,4 @@
-var canvas, ctx, width, height, stems, bubbles;
-var noOfFish;
-var caught = 0;
+var canvas, ctx, width, height, stems, bubbles, noOfFish, caught = 0, score = 0;
 stems = [];
 bubbles = [];
 fishGr = [];
@@ -205,9 +203,14 @@ function catchFish() {
 
   fishGr.forEach((fish) => {
     if (checkCollision(fish, hook)) {
-      fish.remove();
+      score += fish.width;
+      fish.style.bottom = "375px";
+      fish.style.left = boat.left;
+      setTimeout(() => {
+        fish.remove(); // Hide the caught fish
+      }, 400);
       caught++;
-      console.log("You caught a fish!");
+      console.log("You caught a fish!", score);
     }
   });
 }
@@ -264,7 +267,7 @@ function gameOn(){
     caught = 0;
     resetFish(noOfFish);
     populateFish(noOfFish);
-    fishGr.forEach(animateFish);
+    setTimeout(fishGr.forEach(animateFish), 1000);
   }
   window.requestAnimationFrame(gameOn);
 }
