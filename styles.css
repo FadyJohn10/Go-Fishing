@@ -115,11 +115,21 @@ canvas{
     transform: scaleX(-1) !important;
 }
 
-.score-board{margin-left: 10px;}
-
-.score-board p{
+.score-board{
+    margin-left: 10px;
     font-family: monospace;
     font-size: 17px;
     font-weight: bold;
     color: #ddd;
+}
+
+#timer{
+    color: #ddd;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 22px;
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    top: 10px;
 }

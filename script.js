@@ -268,8 +268,24 @@ function displayScore(){
   spanScore.innerHTML = "0";
   p.appendChild(spanScore);
   document.querySelector(".score-board").appendChild(p);
+}
+
 function updateScore(){
   document.getElementById("score").innerHTML = score;
+}
+
+function timer(){
+  var timer = 3;
+  let timerReq = setInterval(function () {
+    var min = parseInt(timer / 60);
+    var sec = timer % 60;
+    var result = min + 'M ' + sec + 'S'; //formart seconds into 00:00 
+    document.getElementById('timer').innerHTML = result;
+    timer--;
+    if(timer < 0){
+      clearInterval(timerReq);
+    }
+  }, 1000)
 }
 
 function gameOn(){
@@ -286,6 +302,7 @@ function gameOn(){
 
 function initGame(){
   displayScore();
+  timer();
   noOfFish = 1;
   populateFish(noOfFish);
   fishGr.forEach(animateFish);
