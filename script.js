@@ -209,6 +209,7 @@ function catchFish() {
       setTimeout(() => {
         fish.remove(); // Hide the caught fish
       }, 400);
+      updateScore();
       caught++;
     }
   });
@@ -260,11 +261,18 @@ function detectKey(e) {
 }
 
 function displayScore(){
+  let p = document.createElement("p");
+  p.innerHTML = "Score: ";
+  let spanScore = document.createElement("span");
+  spanScore.id = "score";
+  spanScore.innerHTML = "0";
+  p.appendChild(spanScore);
+  document.querySelector(".score-board").appendChild(p);
+function updateScore(){
   document.getElementById("score").innerHTML = score;
 }
 
 function gameOn(){
-  displayScore();
   if(caught == noOfFish){
     noOfFish = Math.ceil(getRandomNumber(0, 5));
     console.log(noOfFish);
@@ -277,6 +285,7 @@ function gameOn(){
 }
 
 function initGame(){
+  displayScore();
   noOfFish = 1;
   populateFish(noOfFish);
   fishGr.forEach(animateFish);
