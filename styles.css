@@ -109,13 +109,8 @@ canvas{
 .fish {
     position: absolute;
     z-index: 9;
-    transition: all .5s cubic-bezier(0, 0, 0.12, 0.97);
 }
 
 .flip-horizontally {
     transform: scaleX(-1) !important;
-}
-
-.caught{
-    transform: rotate(90deg);
 }

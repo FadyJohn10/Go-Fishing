@@ -1,4 +1,4 @@
-var canvas, ctx, width, height, stems, bubbles, noOfFish, caught = 0, score = 0;
+var canvas, ctx, width, height, stems, bubbles, noOfFish, caught = 0, uncaught = 0, score = 0;
 stems = [];
 bubbles = [];
 fishGr = [];
@@ -151,7 +151,7 @@ function animateFish(fish) {
     positionX += speed * direction;
     fish.style.left = `${positionX}px`;
 
-    // If the fish goes beyond the ocean container, reset its position and randomize speed and direction
+    // If the fish goes beyond the ocean container
     if (positionX > oceanWidth) {
       positionX = -fish.clientWidth;
     } else if (positionX < -fish.clientWidth) {
@@ -204,8 +204,8 @@ function catchFish() {
   fishGr.forEach((fish) => {
     if (checkCollision(fish, hook)) {
       score += fish.width;
+      fish.style.transition = "all .5s cubic-bezier(0, 0, 0.12, 0.97)";
       fish.style.bottom = "375px";
-      fish.style.left = boat.left;
       setTimeout(() => {
         fish.remove(); // Hide the caught fish
       }, 400);
@@ -267,7 +267,7 @@ function gameOn(){
     caught = 0;
     resetFish(noOfFish);
     populateFish(noOfFish);
-    setTimeout(fishGr.forEach(animateFish), 1000);
+    fishGr.forEach(animateFish);
   }
   window.requestAnimationFrame(gameOn);
 }
