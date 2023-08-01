@@ -125,8 +125,6 @@ function initCanvas(){
   drawFrame();
 };
 
-initCanvas();
-
 // Function to generate random number within a range
 function getRandomNumber(min, max) {
   return Math.random() * (max - min) + min;
@@ -211,6 +209,7 @@ function catchFish() {
       }, 400);
       updateScore();
       caught++;
+      console.log("caught: ", caught);
     }
   });
 }
@@ -262,6 +261,7 @@ function detectKey(e) {
 
 function displayScore(){
   let p = document.createElement("p");
+  p.id = "scorre";
   p.innerHTML = "Score: ";
   let spanScore = document.createElement("span");
   spanScore.id = "score";
@@ -274,8 +274,8 @@ function updateScore(){
   document.getElementById("score").innerHTML = score;
 }
 
-function timer(){
-  var timer = 3;
+function displayTimer(){
+  var timer = 30;
   let timerReq = setInterval(function () {
     var min = parseInt(timer / 60);
     var sec = timer % 60;
@@ -284,28 +284,45 @@ function timer(){
     timer--;
     if(timer < 0){
       clearInterval(timerReq);
+      gameOff();
     }
   }, 1000)
 }
 
 function gameOn(){
-  if(caught == noOfFish){
-    noOfFish = Math.ceil(getRandomNumber(0, 5));
-    console.log(noOfFish);
+  if(caught >= noOfFish){
     caught = 0;
     resetFish(noOfFish);
+    noOfFish = Math.ceil(getRandomNumber(0, 5));
+    console.log(noOfFish);
     populateFish(noOfFish);
     fishGr.forEach(animateFish);
   }
   window.requestAnimationFrame(gameOn);
 }
 
+function gameOff(){
+  document.getElementById("game").style.display = "none";
+  document.getElementById("end").style.display = "block";
+  document.getElementById("scorre").remove();
+}
+
+initCanvas();
 function initGame(){
+  document.getElementById("start").style.display = "none";
+  document.getElementById("game").style.display = "block";
   displayScore();
-  timer();
+  displayTimer();
+  caught = 0;
   noOfFish = 1;
   populateFish(noOfFish);
   fishGr.forEach(animateFish);
   gameOn();
 }
-initGame();
+
+function restart(){
+  document.querySelectorAll(".fish").forEach(f => f.remove());
+  resetFish();
+  document.getElementById("end").style.display = "none";
+  initGame();
+}
