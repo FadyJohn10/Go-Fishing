@@ -114,3 +114,12 @@ canvas{
 .flip-horizontally {
     transform: scaleX(-1) !important;
 }
+
+.score-board{margin-left: 10px;}
+
+.score-board p{
+    font-family: monospace;
+    font-size: 17px;
+    font-weight: bold;
+    color: #ddd;
+}

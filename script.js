@@ -210,7 +210,6 @@ function catchFish() {
         fish.remove(); // Hide the caught fish
       }, 400);
       caught++;
-      console.log("You caught a fish!", score);
     }
   });
 }
@@ -260,7 +259,12 @@ function detectKey(e) {
   }
 }
 
+function displayScore(){
+  document.getElementById("score").innerHTML = score;
+}
+
 function gameOn(){
+  displayScore();
   if(caught == noOfFish){
     noOfFish = Math.ceil(getRandomNumber(0, 5));
     console.log(noOfFish);
