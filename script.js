@@ -1,4 +1,4 @@
-var canvas, ctx, width, height, stems, bubbles, noOfFish, caught = 0, uncaught = 0, score = 0;
+var canvas, ctx, width, height, stems, bubbles, noOfFish, caught = 0, uncaught = 0, score, highScore = 0;
 stems = [];
 bubbles = [];
 fishGr = [];
@@ -275,7 +275,7 @@ function updateScore(){
 }
 
 function displayTimer(){
-  var timer = 30;
+  var timer = 10;
   let timerReq = setInterval(function () {
     var min = parseInt(timer / 60);
     var sec = timer % 60;
@@ -303,6 +303,10 @@ function gameOn(){
 
 function gameOff(){
   document.getElementById("game").style.display = "none";
+  if (score > highScore){
+    highScore = score;
+    document.getElementById("highScore").innerHTML = highScore;
+  }
   document.getElementById("end").style.display = "block";
   document.getElementById("scorre").remove();
 }
@@ -314,6 +318,7 @@ function initGame(){
   displayScore();
   displayTimer();
   caught = 0;
+  score = 0;
   noOfFish = 1;
   populateFish(noOfFish);
   fishGr.forEach(animateFish);

@@ -1,4 +1,4 @@
-html, body {
+body {
     margin: 0;
     min-height: 100%;
     overflow: hidden;
@@ -7,6 +7,33 @@ html, body {
     font-family: monospace;
     font-weight: bold;
     color: #ddd;
+}
+
+#start, #end{
+    width: 200px;
+    background-color: rgba(238, 238, 238, 0.7);
+    text-align: center;
+    margin: auto;
+    padding: 30px 30px;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    border-radius: 1rem;
+    color: #000;
+}
+
+#start-btn, #restart-btn{
+    background: none;
+    border: 1px solid #aaa;
+    padding: 5px 15px;
+    border-radius: .7rem;
+    cursor: pointer;
+    transition: .2s ease-in-out;
+}
+
+#start-btn:hover, #restart-btn:hover{
+    background-color: rgba(255, 255, 255, 0.6);
 }
 
 .ocean {
@@ -92,13 +119,12 @@ canvas{
 }
 
 .rod {
-    opacity: 0.5;
     width: 1px;
     height: 10px;
-    background-color: rgb(182 219 251);
+    background-color: rgba(182, 219, 251, 0.7);
     transition: all .5s cubic-bezier(0, 0, 0.12, 0.97);
     position: absolute;
-    top: 321px;
+    top: 312px;
     left: 321px;
     z-index: 4;
 }
