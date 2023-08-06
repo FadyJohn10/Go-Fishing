@@ -3,6 +3,9 @@ stems = [];
 bubbles = [];
 fishGr = [];
 
+let waveSound = new Audio('./ocean.wav');
+let rodSound = new Audio('./rod.wav');
+
 function Bubble(x, y, radius) {
   this.x = x;
   this.y = y;
@@ -221,6 +224,7 @@ function moveHook() {
   if (document.querySelector(".rod").clientHeight < 500){
     requestAnimationFrame(moveHook);
   }
+  rodSound.play();
   setTimeout(returnHook, 500);
 }
 
@@ -302,6 +306,8 @@ function gameOn(){
 }
 
 function gameOff(){
+  waveSound.pause();
+  waveSound.currentTime = 0;
   document.getElementById("game").style.display = "none";
   if (score > highScore){
     highScore = score;
@@ -313,6 +319,8 @@ function gameOff(){
 
 initCanvas();
 function initGame(){
+  waveSound.loop = true;
+  waveSound.play();
   document.getElementById("start").style.display = "none";
   document.getElementById("game").style.display = "block";
   displayScore();
