@@ -225,7 +225,7 @@ function moveHook() {
     requestAnimationFrame(moveHook);
   }
   rodSound.play();
-  setTimeout(returnHook, 500);
+  setTimeout(returnHook, 600);
 }
 
 function returnHook(){
@@ -259,7 +259,9 @@ function detectKey(e) {
         rodStand.style.marginLeft  = (posLeft+58)+"px";
     }
     else if (e.key == " " || e.code == "Space" || e.keyCode == 32) {
-        moveHook();
+        if (document.querySelector(".rod").clientHeight == 10){
+          moveHook();
+        }
   }
 }
 
@@ -279,7 +281,7 @@ function updateScore(){
 }
 
 function displayTimer(){
-  var timer = 10;
+  var timer = 60;
   let timerReq = setInterval(function () {
     var min = parseInt(timer / 60);
     var sec = timer % 60;
