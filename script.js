@@ -1,4 +1,4 @@
-var canvas, ctx, width, height, stems, bubbles, noOfFish, caught = 0, uncaught = 0, score, highScore = 0;
+var canvas, ctx, width, height, stems, bubbles, noOfFish, caught = 0, score1 = 0, score2 = 0, highScore = 0;
 stems = [];
 bubbles = [];
 fishGr = [];
@@ -199,89 +199,141 @@ function checkCollision(elem1, elem2) {
     rect2.bottom < rect1.top);
 }
 
-function catchFish() {
-  const hook = document.querySelector(".hook");
-
+function catchFish(id) {
+  let hook = document.getElementById(`hook${id}`);
   fishGr.forEach((fish) => {
     if (checkCollision(fish, hook)) {
-      score += fish.width;
+      if(id == 1){
+        score1 += fish.width;
+      }else{
+        score2 += fish.width;
+      }
       fish.style.transition = "all .5s cubic-bezier(0, 0, 0.12, 0.97)";
       fish.style.bottom = "375px";
       setTimeout(() => {
-        fish.remove(); // Hide the caught fish
+        fish.remove();
       }, 400);
-      updateScore();
+      updateScore(id);
       caught++;
       console.log("caught: ", caught);
     }
   });
 }
 
-function moveHook() {
-  document.querySelector(".rod").style.height = "500px";
-  document.querySelector(".hook").style.top = "480px";
-  catchFish();
-  if (document.querySelector(".rod").clientHeight < 500){
-    requestAnimationFrame(moveHook);
+function moveHook(id) {
+  document.getElementById(`rod${id}`).style.height = "500px";
+  document.getElementById(`hook${id}`).style.top = "480px";
+  catchFish(id);
+  if (document.getElementById(`rod${id}`).clientHeight < 500){
+    requestAnimationFrame(function(){
+      moveHook(id);
+    })
   }
   rodSound.play();
-  setTimeout(returnHook, 600);
+  setTimeout(function() {
+    returnHook(id);
+  }, 600)
 }
 
-function returnHook(){
-  document.querySelector(".rod").style.height = "10px";
-  document.querySelector(".hook").style.top = "10px";
+function returnHook(id){
+  document.getElementById(`rod${id}`).style.height = "10px";
+  document.getElementById(`hook${id}`).style.top = "10px";
 }
 
 document.onkeydown = detectKey;
-var boat = document.getElementById('myId');
-var fisher = document.querySelector(".fisher");
-var rod = document.querySelector(".rod");
-var rodStand = document.querySelector(".rod-stand");
-var hook = document.querySelector(".hook");
+var boat1 = document.getElementById('boat1');
+var fisher1 = document.getElementById("fisher1");
+var rod1 = document.getElementById("rod1");
+var rodStand1 = document.getElementById("stand1");
+var hook1 = document.getElementById("hook1");
+var boat2 = document.getElementById('boat2');
+var fisher2 = document.getElementById("fisher2");
+var rod2 = document.getElementById("rod2");
+var rodStand2 = document.getElementById("stand2");
+var hook2 = document.getElementById("hook2");
 function detectKey(e) {
 
-    var posLeft = boat.offsetLeft;
-    var posRight = window.width - boat.offsetLeft - boat.width;
+    var posLeft = boat1.offsetLeft;
+    var posRight = window.width - boat1.offsetLeft - boat1.width;
+    var posLeft2 = boat2.offsetLeft;
+    var posRight2 = window.width - boat2.offsetLeft - boat2.width;
 
     e = e || window.event;
 
     if (e.keyCode == '37' && posLeft >= 58) {
-        boat.style.marginLeft  = (posLeft-58)+"px";
-        fisher.style.marginLeft  = (posLeft-58)+"px";
-        rod.style.marginLeft  = (posLeft-58)+"px";
-        rodStand.style.marginLeft  = (posLeft-58)+"px";
+        boat1.style.marginLeft  = (posLeft-58)+"px";
+        fisher1.style.marginLeft  = (posLeft-58)+"px";
+        rod1.style.marginLeft  = (posLeft-58)+"px";
+        rodStand1.style.marginLeft  = (posLeft-58)+"px";
     }
     else if (e.keyCode == '39' && posRight >= 58) {
-        boat.style.marginLeft  = (posLeft+58)+"px";
-        fisher.style.marginLeft  = (posLeft+58)+"px";
-        rod.style.marginLeft  = (posLeft+58)+"px";
-        rodStand.style.marginLeft  = (posLeft+58)+"px";
+        boat1.style.marginLeft  = (posLeft+58)+"px";
+        fisher1.style.marginLeft  = (posLeft+58)+"px";
+        rod1.style.marginLeft  = (posLeft+58)+"px";
+        rodStand1.style.marginLeft  = (posLeft+58)+"px";
     }
     else if (e.key == " " || e.code == "Space" || e.keyCode == 32) {
-        if (document.querySelector(".rod").clientHeight == 10){
-          moveHook();
+        if (document.getElementById("rod1").clientHeight == 10){
+          moveHook(1);
         }
-  }
+    }else if (e.keyCode == '65' && posLeft2 >= 58) {
+      console.log("pressed");
+      boat2.style.marginRight  = (posRight2+58)+"px";
+      fisher2.style.marginRight  = (posRight2+58)+"px";
+      rod2.style.marginRight  = (posRight2+58)+"px";
+      rodStand2.style.marginRight  = (posRight2+58)+"px";
+      }
+      else if (e.keyCode == '68' && posRight2 >= 58) {
+          boat2.style.marginRight  = (posRight2-58)+"px";
+          fisher2.style.marginRight  = (posRight2-58)+"px";
+          rod2.style.marginRight  = (posRight2-58)+"px";
+          rodStand2.style.marginRight  = (posRight2-58)+"px";
+      }
+      else if (e.keyCode == '83') {
+          if (document.getElementById("rod2").clientHeight == 10){
+            moveHook(2);
+          }
+      }
 }
 
 function displayScore(){
   let p = document.createElement("p");
-  p.id = "scorre";
+  p.style.position = "absolute";
+  p.style.left = "15px";
+  p.style.top = "10px";
+  p.id = "scorre1";
   p.innerHTML = "Score: ";
   let spanScore = document.createElement("span");
-  spanScore.id = "score";
+  spanScore.id = "score1";
   spanScore.innerHTML = "0";
   p.appendChild(spanScore);
   document.querySelector(".score-board").appendChild(p);
 }
 
-function updateScore(){
-  document.getElementById("score").innerHTML = score;
+function displayPlayer2Score(){
+  let p = document.createElement("p");
+  p.style.position = "absolute";
+  p.style.right = "15px";
+  p.style.top = "10px";
+  p.id = "scorre2";
+  p.innerHTML = "Score: ";
+  let spanScore = document.createElement("span");
+  spanScore.id = "score2";
+  spanScore.innerHTML = "0";
+  p.appendChild(spanScore);
+  document.querySelector(".score-board").appendChild(p);
+}
+
+function updateScore(id){
+  if(id == 1){
+    document.getElementById("score1").innerHTML = score1;
+  }else{
+    document.getElementById("score2").innerHTML = score2;
+  }
 }
 
 function displayTimer(){
-  var timer = 60;
+  var timer = 10;
   let timerReq = setInterval(function () {
     var min = parseInt(timer / 60);
     var sec = timer % 60;
@@ -311,24 +363,32 @@ function gameOff(){
   waveSound.pause();
   waveSound.currentTime = 0;
   document.getElementById("game").style.display = "none";
-  if (score > highScore){
-    highScore = score;
+  if (score1 > highScore){
+    highScore = score1;
+    document.getElementById("highScore").innerHTML = highScore;
+  }
+  if(score2 > highScore){
+    highScore = score2;
     document.getElementById("highScore").innerHTML = highScore;
   }
   document.getElementById("end").style.display = "block";
-  document.getElementById("scorre").remove();
+  document.getElementById("scorre1").remove();
+  document.getElementById("scorre2").remove();
 }
 
 initCanvas();
+
 function initGame(){
   waveSound.loop = true;
   waveSound.play();
   document.getElementById("start").style.display = "none";
   document.getElementById("game").style.display = "block";
   displayScore();
+  displayPlayer2Score();
   displayTimer();
   caught = 0;
-  score = 0;
+  score1 = 0;
+  score2 = 0;
   noOfFish = 1;
   populateFish(noOfFish);
   fishGr.forEach(animateFish);
