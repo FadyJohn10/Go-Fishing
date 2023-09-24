@@ -10,7 +10,7 @@ body {
 }
 
 #start, #end{
-    width: 200px;
+    width: 250px;
     background-color: rgba(238, 238, 238, 0.7);
     text-align: center;
     margin: auto;
@@ -23,7 +23,7 @@ body {
     color: #000;
 }
 
-#start-btn, #restart-btn{
+#start-btn, #restart-btn, #multi-btn{
     background: none;
     border: 1px solid #aaa;
     padding: 5px 15px;
@@ -32,9 +32,7 @@ body {
     transition: .2s ease-in-out;
 }
 
-#start-btn:hover, #restart-btn:hover{
-    background-color: rgba(255, 255, 255, 0.6);
-}
+#start-btn:hover, #restart-btn:hover, #multi-btn:hover{background-color: rgba(255, 255, 255, 0.6);}
 
 .ocean {
     height: 50px;
@@ -83,11 +81,12 @@ canvas{
     position: absolute;
     width: 300px;
     bottom: 375px;
-    left: 0;
-    right: 100%;
     transition: all 0.5s cubic-bezier(0, 0, 0.12, 0.97);
     animation: boatmotion 3s infinite;
 }
+#boat1{left: 0;}
+#boat2{right: 0;}
+
 @keyframes boatmotion{
     0% {transform: translateY(0); transform: translateX(0);}
     35% {transform: translateY(4px); transform: translateX(2px);}
@@ -97,12 +96,17 @@ canvas{
 
 .fisher{
     width: 200px;
-    transform: scaleX(-1);
     z-index: -1;
-    position: absolute;
-    left: 75px;
+    position: absolute;  
     bottom: 370px;
     transition: all 0.5s cubic-bezier(0, 0, 0.12, 0.97);
+}
+#fisher1{
+    left: 75px;
+    transform: scaleX(-1);
+}
+#fisher2{
+    right: 75px;
 }
 
 .rod-stand{
@@ -110,12 +114,18 @@ canvas{
     width: 3px;
     background-color: #855a31;
     border-radius: 5px;
-    position: absolute;
-    left: 280px;
+    position: absolute; 
     bottom: 445px;
-    transform: rotate(55deg);
     z-index: -1 ;
     transition: all 0.5s cubic-bezier(0, 0, 0.12, 0.97);
+}
+#stand1{
+    left: 280px;
+    transform: rotate(55deg);
+}
+#stand2{
+    right: 280px;
+    transform: rotate(-55deg);
 }
 
 .rod {
@@ -125,15 +135,25 @@ canvas{
     transition: all .5s cubic-bezier(0, 0, 0.12, 0.97);
     position: absolute;
     top: 312px;
-    left: 321px;
     z-index: 4;
+}
+#rod1{
+    left: 321px;
+}
+#rod2{
+    right: 321px;
 }
 .hook{
     width: 12px;
     position: relative;
     top: 10px;
-    left: -10px;
     transition: all .5s cubic-bezier(0, 0, 0.12, 0.97);
+}
+#hook1{
+    left: -10px;
+}
+#hook2{
+    right: 1px;
 }
 .fish {
     position: absolute;
@@ -145,8 +165,6 @@ canvas{
 }
 
 .score-board{
-    margin-left: 10px;
-    margin-top: -10px;
     font-size: 17px;
 }
 
@@ -155,5 +173,5 @@ canvas{
     position: absolute;
     transform: translateX(-50%);
     left: 50%;
-    top: 10px;
+    top: 15px;
 }
