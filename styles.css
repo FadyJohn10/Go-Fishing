@@ -10,7 +10,7 @@ body {
 }
 
 #start, #end{
-    width: 200px;
+    width: 250px;
     background-color: rgba(238, 238, 238, 0.7);
     text-align: center;
     margin: auto;
@@ -23,7 +23,7 @@ body {
     color: #000;
 }
 
-#start-btn, #restart-btn{
+#start-btn, #restart-btn, #multi-btn{
     background: none;
     border: 1px solid #aaa;
     padding: 5px 15px;
@@ -32,7 +32,7 @@ body {
     transition: .2s ease-in-out;
 }
 
-#start-btn:hover, #restart-btn:hover{background-color: rgba(255, 255, 255, 0.6);}
+#start-btn:hover, #restart-btn:hover, #multi-btn:hover{background-color: rgba(255, 255, 255, 0.6);}
 
 .ocean {
     height: 50px;

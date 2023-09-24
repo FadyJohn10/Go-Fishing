@@ -331,16 +331,16 @@ function updateScore(id){
     document.getElementById("score2").innerHTML = score2;
   }
 }
-
+var timer = 45;
 function displayTimer(){
-  var timer = 10;
+  let timerCount = timer;
   let timerReq = setInterval(function () {
-    var min = parseInt(timer / 60);
-    var sec = timer % 60;
+    var min = parseInt(timerCount / 60);
+    var sec = timerCount % 60;
     var result = min + 'M ' + sec + 'S'; //formart seconds into 00:00 
     document.getElementById('timer').innerHTML = result;
-    timer--;
-    if(timer < 0){
+    timerCount--;
+    if(timerCount < 0){
       clearInterval(timerReq);
       gameOff();
     }
@@ -384,7 +384,6 @@ function initGame(){
   document.getElementById("start").style.display = "none";
   document.getElementById("game").style.display = "block";
   displayScore();
-  displayPlayer2Score();
   displayTimer();
   caught = 0;
   score1 = 0;
@@ -400,4 +399,21 @@ function restart(){
   resetFish();
   document.getElementById("end").style.display = "none";
   initGame();
+}
+
+
+
+// multiplayer
+
+function initMultiGame(){
+  multi();
+  initGame();
+}
+
+function multi(){
+  document.getElementById("boat2").style.display = "block";
+  document.getElementById("fisher2").style.display = "block";
+  document.getElementById("rod2").style.display = "block";
+  document.getElementById("stand2").style.display = "block";
+  displayPlayer2Score();
 }
